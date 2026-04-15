@@ -14,9 +14,7 @@ sigma_P <- 1
 mu_A <- 6
 sigma_A <- 1.5
 
-# ---------------------------------------------------------
-# The Analytical Integration Method (Eq 114 to 120, and 133 to 141)
-# ---------------------------------------------------------
+# The Analytical Integration Method
 
 # Variance sums shared across functions
 var_sum <- sigma_P^2 + sigma_A^2
@@ -25,11 +23,11 @@ sd_sum <- sqrt(var_sum)
 var_total <- sigma_c^2 + var_sum
 sd_total <- sqrt(var_total)
 
-# 1. Integrated Heaviside H_int (Eq 119) replacing the raw step function
+# 1. Integrated Heaviside H_int replacing the raw step function
 d_AP <- mu_A - mu_P
 H_int <- pnorm(d_AP / sd_sum)
 
-# 2. Integrated f_int (Eq 133 to 141)
+# 2. Integrated f_int
 d_PA <- mu_P - mu_A
 part1 <- pnorm(d_PA / sd_sum)
 part2 <- (sigma_c / sd_total) * exp(-(d_PA^2) / (2 * var_total)) * pnorm((d_PA * sigma_c) / (sd_sum * sd_total))

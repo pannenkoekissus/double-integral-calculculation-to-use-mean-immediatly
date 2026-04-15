@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage[left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+\usepackage[greek,english]{babel}
+\usepackage{tikz}
+
+\title{integral solve}
+\author{Ghilon Etienne}
+\date{April 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Solution}
+We need to solve:
+
+\begin{align}
+\int^\infty_{-\infty} \int^\infty_{-\infty} e^{r_{P} + B_{P}(x_P,y_A) - C_{P}(x_P,y_A) - m_{P} P_{t}} N(x_P) N(y_A) dx_P dy_A   
+\end{align}
+
+This is a difficult integral. One way to approximate it is to Taylor expand the integrand. In fact, Eq. \ref{pop_dyn_P} contains the zero-th order term by simply replacing $x_P$ and $y_A$ by the plant and animal mean traits. A first order approximation may already be an improvement. \vspace{\baselineskip}
+
+We can derive a beautiful continuous closed-form formula for this Double Integral by performing a Gaussian Integration (also known as Laplace's Method) on the inner exponent.
+
+Because standard fractional exponents aren't integratable, we first apply the second-order Taylor expansion strictly to the exponent $g(x,y)$ inside, leaving it wrapped in the integral: $$ \iint \exp\left(g_0 + g_x(x-\mu_P) + g_y(y-\mu_A) + \frac{1}{2}g_{xx}(x-\mu_P)^2 + \frac{1}{2}g_{yy}(y-\mu_A)^2\right) N(x) N(y) dx dy $$
+
+Because you are multiplying this exponential function against two Normal Distributions ($\frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$), we can combine the $x^2$ polynomials into two uniform Gaussian integrals: $\int e^{-A u^2 + B u} du$.
+
+By mathematically executing the exact Gaussian integrals $\sqrt{\frac{\pi}{A}} e^{\frac{B^2}{4A}}$, the infinite double-integral collapses entirely into this single, exact closed-form algebraic formula:
+
+$$ I_{closed} = \frac{ \exp\left( g(\mu_P, \mu_A) + \frac{g_x^2 \sigma_P^2}{2(1 - g_{xx} \sigma_P^2)} + \frac{g_y^2 \sigma_A^2}{2(1 - g_{yy} \sigma_A^2)} \right) } { \sqrt{1 - g_{xx} \sigma_P^2} \sqrt{1 - g_{yy} \sigma_A^2} } $$
+
+What the Terms Are (in terms of your parameters):
+$g(\mu_P, \mu_A)$ = The fitness exponent evaluated at the trait means: $r_P + B_P(\mu_P,\mu_A) - C_P(\mu_P,\mu_A) - m_P P_{t}$.
+$g_x$ and $g_y$ = The First-order partial derivatives of your fitness exponent with respect to $x_P$ and $y_A$ (evaluated at the means).
+$g_{xx}$ and $g_{yy}$ = The Second-order partial derivatives (Hessian components) of your fitness exponent with respect to $x_P$ and $y_A$ (evaluated at the means).
+$\sigma_P^2$ and $\sigma_A^2$ = The trait variances of the specific Plant and Animal species.
+\end{document}
